@@ -37,5 +37,12 @@
       <span>File Share</span>
     </mat-toolbar>
     <router-outlet></router-outlet>
+    <button mat-fab 
+            class="fab"
+            matTooltip="Add new File"
+            [routerLink]="['/File']" routerLinkActive="router-link-active" >
+      <mat-icon aria-label="Example icon-button with a heart icon">note_add</mat-icon>
+    </button>
   </mat-sidenav-content>
 </mat-sidenav-container>
+

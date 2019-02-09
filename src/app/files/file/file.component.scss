@@ -1,6 +1,8 @@
 .file-container {
-    display: flex;
-    flex-direction: column;
+  form {
+      display: flex;
+      flex-direction: column;
+    }
   }
   
   .file-container > * {
@@ -9,4 +11,12 @@
 
   .row {
       margin-top: 20px;
+  }
+
+  .radio-group {
+    display: contents;
+
+    > * {
+      margin: 8px 0px;
+    }
   }
