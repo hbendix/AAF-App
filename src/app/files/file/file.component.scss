@@ -1,0 +1,12 @@
+.file-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .file-container > * {
+    width: 100%;
+  }
+
+  .row {
+      margin-top: 20px;
+  }

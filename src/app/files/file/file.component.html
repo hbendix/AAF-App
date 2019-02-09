@@ -1,0 +1,68 @@
+<div class="container">
+  <div class="row" *ngIf="file !== undefined">
+    <div class="col-12">
+      <div class="file-container">  
+        <mat-form-field appearance="outline"
+                        [floatLabel]="always">
+          <input  matInput 
+                  placeholder="Version" 
+                  [disabled]='true' 
+                  [(ngModel)]="file.version">
+        </mat-form-field>  
+
+        <mat-form-field appearance="outline">
+          <input  matInput 
+                  placeholder="Title" 
+                  [(ngModel)]="file.title">
+        </mat-form-field>
+      
+        <mat-form-field appearance="outline">
+            <textarea matInput 
+                      placeholder="Description" 
+                      [(ngModel)]="file.description"></textarea> 
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Select File Type"
+                      [(ngModel)]="file.fileType">
+            <mat-option *ngFor="let type of fileTypes">{{type}}</mat-option>
+          </mat-select>
+          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <input  matInput 
+                  type="number"
+                  placeholder="Size" 
+                  [(ngModel)]="file.size">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Select Size Type"
+                      [(ngModel)]="file.sizeType">
+            <mat-option *ngFor="let type of sizeTypes">{{type}}</mat-option>
+          </mat-select>
+          <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
+        </mat-form-field>
+
+        <mat-radio-group name="grpName">
+          <mat-radio-button [checked]="file.isPublic === true" name="public">Public</mat-radio-button>
+          <mat-radio-button [checked]="file.isPublic === false" name="private">Private</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      
+    </div>
+  </div>  
+  <div class="row" *ngIf="file === undefined">
+    <div class="col-12">
+      <h1>No File Selected.</h1>
+      <app-file-list></app-file-list>
+    </div>
+  </div>
+</div>
+
+    
