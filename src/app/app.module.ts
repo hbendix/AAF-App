@@ -4,8 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavbarComponent } from './shared/navbar/navbar.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { HttpModule } from '@angular/http';
 
 import {
   MatAutocompleteModule,
@@ -50,6 +51,7 @@ import { FileComponent } from './files/file/file.component';
 import { FileListComponent } from './files/file-list/file-list.component';
 import { UserComponent } from './users/user/user.component';
 import { TeamComponent } from './teams/team/team.component';
+import { LoginComponent } from './shared/components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { TeamComponent } from './teams/team/team.component';
     FileComponent,
     FileListComponent,
     UserComponent,
-    TeamComponent
+    TeamComponent,
+    LoginComponent,
   ],
   imports: [
     FormsModule,
@@ -67,6 +70,7 @@ import { TeamComponent } from './teams/team/team.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
+    HttpModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatBottomSheetModule,

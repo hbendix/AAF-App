@@ -1,0 +1,32 @@
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+}
+    
+.form-container > * {
+    width: 100%;
+}
+
+.row {
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    width: 400px;
+}
+form {
+    padding: 24px;
+    background-color: white;
+    border-radius: 20px;
+
+    -webkit-box-shadow: 7px 14px 17px -8px rgba(0,0,0,0.4);
+    -moz-box-shadow: 7px 14px 17px -8px rgba(0,0,0,0.4);
+    box-shadow: 7px 14px 17px -8px rgba(0,0,0,0.4);
+}

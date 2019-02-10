@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { FileList } from './file-list';
 import { File } from './file';
 import { UserDetails } from 'src/app/users/shared/user-details';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { Http, Headers } from '@angular/http';
+import { environment } from '../../../environments/environment';
+import { UserService } from 'src/app/users/shared/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,44 +16,20 @@ export class FileService {
   newFileLoaded = new Subject();
   user = new UserDetails(1, 'Harry', Date.now(), 'harry.jpeg');
 
-  constructor() { }
+  constructor(private http: Http,
+    private userService: UserService) { }
 
-  public getFileList(): FileList[] {
-    const toReturn = [];
-    const i = new FileList(1, 1, 'Auditing Method', 'MP4', 100, 'KB', this.user);
-    const ii = new FileList(1, 1, 'New business proposal', 'docx', 10, 'KB', this.user);
-
-    toReturn.push(i);
-    toReturn.push(ii);
-
-    return toReturn;
+  public getFileList() {
+    return this.http.get(`${ environment.server.url }api/file/all/${ this.userService.getUserDetails().userId }`)
+      .map(res => <FileList[]>res.json());
   }
 
   public loadFile (fileId): boolean {
-    const userDetails: UserDetails[] = [];
-    userDetails.push(this.user);
-    const i = new File(
-      1,
-      1,
-      'Auditing Method',
-      'New auditing method proposed by management',
-      'MP4',
-      100,
-      'KB',
-      this.user,
-      this.user,
-      null,
-      ['Video', 'MP4'],
-      false,
-      false,
-      null,
-      userDetails, null);
-
-      return this.setFileToView(i);
+    return true;
   }
 
-  public addFile (): void {
-
+  public addFile (file: File) {
+    return this.http.post(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }`, file);
   }
 
   public updateFile (): void {

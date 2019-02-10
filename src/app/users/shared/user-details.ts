@@ -1,10 +1,10 @@
 export class UserDetails {
-    userId: number;
+    userId: string;
     name: string;
     when: number;
     avatar: string;
 
-    constructor(userId: number,
+    constructor(userId: string,
         name: string,
         when: number,
         avatar: string) {

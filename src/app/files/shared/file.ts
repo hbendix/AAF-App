@@ -3,7 +3,6 @@ import { Team } from 'src/app/teams/shared/team';
 
 export class File {
 
-    id: number;
     version: number;
     title: string;
     description: string;
@@ -12,15 +11,19 @@ export class File {
     sizeType: string;
     createdBy: UserDetails;
     updateBy: UserDetails;
-    checkedOut?: UserDetails;
     tags: string[];
     dormant: boolean;
-    team?: Team;
     isPublic: boolean;
+    checkedOut?: {
+        true: boolean,
+        by: UserDetails,
+    };
+    teams?: Team[];
     canEdit?: UserDetails[];
     perviousVersion?: number[];
+    id?: number;
 
-    constructor(id: number,
+    constructor(
         version: number,
         title: string,
         description: string,
@@ -29,13 +32,17 @@ export class File {
         sizeType: string,
         createdBy: UserDetails,
         updateBy: UserDetails,
-        checkedOut: UserDetails,
         tags: string[],
         dormant: boolean,
         isPublic: boolean,
-        perviousVersion: number[],
-        canEdit: UserDetails[],
-        team?: Team) {
+        checkedOut?: {
+            true: boolean,
+            by: UserDetails,
+        },
+        teams?: Team[],
+        canEdit?: UserDetails[],
+        perviousVersion?: number[],
+        id?: number) {
             this.id  = id;
             this.version = version;
             this.title = title;
@@ -48,7 +55,7 @@ export class File {
             this.checkedOut = checkedOut;
             this.tags = tags;
             this.dormant = dormant;
-            this.team = team;
+            this.teams = teams;
             this.isPublic = isPublic;
             this.canEdit = canEdit;
             this.perviousVersion = perviousVersion;

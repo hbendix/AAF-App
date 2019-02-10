@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-12 form-container">
+      <form [formGroup]="loginForm">
+        <mat-form-field appearance="outline"
+                        [floatLabel]="always"
+                        [hideRequiredMarker]="false">
+          <mat-label>Username</mat-label>
+          <input  matInput 
+                  placeholder="Username" 
+                  formControlName="username">
+            <mat-error *ngIf="username.invalid && username.touched">
+              Must have a value.
+            </mat-error>
+        </mat-form-field>  
+        <mat-form-field appearance="outline"
+        [floatLabel]="always"
+        [hideRequiredMarker]="false">  
+          <input  matInput 
+                  placeholder="Password" 
+                  formControlName="password">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="password.invalid && password.touched">
+              Must have a value.
+            </mat-error>
+        </mat-form-field> 
+        <button mat-raised-button color="accent" [disabled]="loginForm.invalid" style="margin-top:16px;" (click)="login()">Login</button>
+
+      </form>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,13 @@ import { File } from '../shared/file';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Types } from '../shared/types';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { TeamService } from 'src/app/teams/shared/team.service';
+import { Team } from 'src/app/teams/shared/team';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { UserService } from 'src/app/users/shared/user.service';
+import { User } from 'src/app/users/shared/user';
+import { UserDetails } from 'src/app/users/shared/user-details';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-file',
@@ -17,17 +24,51 @@ export class FileComponent implements OnInit {
   file: File;
   fileTypes: string[];
   sizeTypes: string[];
-  teams: [];
+  teams: Team[] = [];
+  users: User[] = [];
   tags: string[] = [];
   addNew = true;
+  currentUser: UserDetails;
+  fileVersion = 1;
 
   constructor(private fileService: FileService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private teamService: TeamService,
+    private userService: UserService,
+    private notificationService: NotificationService,
+    private router: Router) {
+      this.currentUser = new UserDetails(
+        this.userService.getUserDetails().userId,
+        this.userService.getUserDetails().username,
+        Date.now(),
+        this.userService.getUserDetails().avatar);
+    }
 
   ngOnInit() {
     this.file = this.fileService.getFileToView();
     this.fileTypes = Types.fileTypes();
     this.sizeTypes = Types.sizeTypes();
+
+    this.teamService.getTeams()
+      .subscribe(
+        (res) => {
+          this.teams = res;
+        }, (err) => {
+          this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
+          console.log(err);
+        }
+    );
+
+    this.userService.getAll()
+      .subscribe(
+        (res) => {
+          res.splice(res.findIndex(item => item.name ===  this.userService.getUserDetails().username), 1);
+          this.users = res;
+        }, (err) => {
+          this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
+          console.log(err);
+        }
+      );
 
     this.fileService.newFileLoaded.subscribe(result => {
       if (result) {
@@ -39,7 +80,7 @@ export class FileComponent implements OnInit {
       hideRequired: false,
       floatLabel: 'auto',
       version: [
-        { value: 1, disabled: true }, [
+        { disabled: true }, [
           Validators.required
         ]
       ],
@@ -57,9 +98,9 @@ export class FileComponent implements OnInit {
       sizeType: ['', [
         Validators.required
       ]],
-      isPublic: ['', [
-        Validators.required
-      ]],
+      isPublic: [false, Validators.required],
+      teams: [],
+      canEdit: [],
     });
   }
 
@@ -72,6 +113,41 @@ export class FileComponent implements OnInit {
   public removeTag (tag) {
     this.tags.splice(tag, 1);
     this.fileTags.nativeElement.value = '';
+  }
+
+  public addFile() {
+    const file = this.fileForm.value;
+    if (this.tags.length > 0) {
+      file.tags = [];
+      file.tags = this.tags;
+    }
+
+    const toAdd = new File(
+      this.fileVersion,
+      file.title,
+      file.description,
+      file.fileType,
+      file.size,
+      file.sizeType,
+      this.currentUser,
+      this.currentUser,
+      file.tags,
+      null,
+      file.isPublic,
+      null,
+      file.teams,
+      file.canEdit,
+      null, null);
+
+
+    this.fileService.addFile(toAdd).subscribe(
+      (res) => {
+        this.notificationService.triggerNotification(`Saved '${ file.title }'`, true, 3000);
+        this.router.navigate(['/MyFiles']);
+      }, (err) => {
+        this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
+      }
+    );
   }
 
 

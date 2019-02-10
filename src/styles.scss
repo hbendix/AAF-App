@@ -9,3 +9,17 @@ body {
     //     color: #707070 !important;
     // }
 }
+
+.snackbar-error {
+    background-color: #C62828;
+    color: white;
+}
+
+.snackbar-success {
+    background-color: #2e7d32;
+    color: white;
+}
+.mat-progress-spinner {
+    margin: 0 auto;
+    margin-top: 20px;
+}

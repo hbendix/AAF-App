@@ -2,18 +2,7 @@
   <div class="row" *ngIf="addNew">
     <div class="col-12">
       <div class="file-container">  
-        <form [formGroup]="fileForm">
-          <mat-form-field appearance="outline"
-                          [floatLabel]="always"
-                          [hideRequiredMarker]="false">
-            <mat-label>Version</mat-label>
-            <input  matInput 
-                    placeholder="Version" 
-                    formControlName="version">
-                    <mat-error *ngIf="version.invalid && version.touched">
-                      Must have a value.
-                    </mat-error>
-          </mat-form-field>  
+        <form [formGroup]="fileForm">          
 
           <mat-form-field appearance="outline" [hideRequiredMarker]="false">
             <mat-label>Title</mat-label>
@@ -38,7 +27,6 @@
                         formControlName="fileType">
               <mat-option *ngFor="let type of fileTypes" [value]="type">{{type}}</mat-option>
             </mat-select>
-            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
 
             <mat-error *ngIf="fileType.invalid && fileType.touched">
                 Must have a value.
@@ -59,34 +47,52 @@
                         formControlName="sizeType">
               <mat-option *ngFor="let type of sizeTypes" [value]="type">{{type}}</mat-option>
             </mat-select>
-            <mat-hint align="end">Here's the dropdown arrow ^</mat-hint>
           </mat-form-field>
 
-          <mat-radio-group name="grpName" class="radio-group">
+          <mat-form-field appearance="outline">
+            <mat-label>Tags</mat-label>
+            <input  matInput 
+                    type="text"
+                    placeholder="Keywords"
+                    #fileTags
+                    name="fileTags">
+            <mat-icon matSuffix (click)="addTag(fileTags.value)">add</mat-icon>
+          </mat-form-field>
+          <mat-chip-list >
+            <mat-chip color="primary" selected (click)="removeTag(tag)" *ngFor="let item of tags">
+              {{item}}
+              <mat-icon>
+                close
+              </mat-icon>
+            </mat-chip>
+          </mat-chip-list>
+
+
+          <mat-radio-group name="grpName" class="radio-group" formControlName="isPublic">
             <mat-label>Publicly Available?</mat-label>
-            <mat-radio-button name="public" [value]="true" formControlName="isPublic">Public</mat-radio-button>
-            <mat-radio-button name="private" [value]="false" formControlName="isPublic">Private</mat-radio-button>
+            <mat-radio-button [value]=true>Public</mat-radio-button>
+            <mat-radio-button [value]=false>Private</mat-radio-button>
           </mat-radio-group>
 
-          <mat-form-field appearance="outline">
-              <mat-label>Tags</mat-label>
-              <input  matInput 
-                      type="text"
-                      placeholder="Keywords"
-                      #fileTags
-                      name="fileTags">
-              <mat-icon matSuffix (click)="addTag(fileTags.value)">add</mat-icon>
-            </mat-form-field>
-            <mat-chip-list *ngFor="let item of tags">
-              <mat-chip color="primary" selected (click)="removeTag(tag)">
-                {{item}}
-                <mat-icon>
-                  close
-                </mat-icon>
-              </mat-chip>
-            </mat-chip-list>
+          <mat-form-field appearance="outline" *ngIf="!fileForm.value.isPublic">
+            <mat-label>Share with User</mat-label>
+            <mat-select placeholder="Select User"
+                        formControlName="canEdit"
+                        multiple>
+              <mat-option *ngFor="let user of users" [value]="user">{{user.name}} ({{user.location}})</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button [disabled]="fileForm.invalid" style="margin-top:16px;">Add New</button>
+          <mat-form-field appearance="outline">
+            <mat-label>Share with Team</mat-label>
+            <mat-select placeholder="Select Team"
+                        formControlName="teams"
+                        multiple>
+              <mat-option *ngFor="let team of teams" [value]="team">{{team.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+              
+          <button mat-raised-button color="accent" [disabled]="fileForm.invalid" style="margin-top:16px;" (click)="addFile()">Add New</button>
       </form>
       </div>
     </div>

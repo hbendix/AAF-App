@@ -1,17 +1,25 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
+    <div class="col-12" *ngIf="myFiles.length > 0">
       <mat-selection-list>
         <h3 mat-subheader>My Files</h3>
         <mat-list-item *ngFor="let file of myFiles"
         (click)="showFile()">
           <mat-icon mat-list-icon>folder</mat-icon>
-          <h4 mat-line>{{file.title}} - v{{file.version}}</h4>
+          <h4 mat-line>
+            {{file.title}} - v{{file.version}}
+            <span class="created-by">              
+               - Created by {{ file.createdBy.name }}
+            </span>
+          </h4>
           <p mat-line>{{ file.fileType }}</p>
           <p mat-line>{{ file.size }} {{ file.sizeType }}</p>
         </mat-list-item>
         <mat-divider></mat-divider>
       </mat-selection-list>
+    </div>
+    <div class="col-12" *ngIf="myFiles.length === 0">
+      <mat-progress-spinner class="mat-progress-spinner" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
     </div>
   </div>
 </div>
