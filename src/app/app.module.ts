@@ -47,11 +47,14 @@ import {
   MatTreeModule,
 } from '@angular/material';
 
-import { FileComponent } from './files/file/file.component';
+import { FileComponent } from './files/file-form/file.component';
 import { FileListComponent } from './files/file-list/file-list.component';
 import { UserComponent } from './users/user/user.component';
 import { TeamComponent } from './teams/team/team.component';
 import { LoginComponent } from './shared/components/login/login.component';
+import { FileSheetComponent } from './files/file-sheet/file-sheet.component';
+import { TeamListComponent } from './teams/team-list/team-list.component';
+import { SearchComponent } from './files/search/search.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +65,9 @@ import { LoginComponent } from './shared/components/login/login.component';
     UserComponent,
     TeamComponent,
     LoginComponent,
+    FileSheetComponent,
+    TeamListComponent,
+    SearchComponent,
   ],
   imports: [
     FormsModule,
@@ -107,6 +113,9 @@ import { LoginComponent } from './shared/components/login/login.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+  ],
+  entryComponents: [
+    FileSheetComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

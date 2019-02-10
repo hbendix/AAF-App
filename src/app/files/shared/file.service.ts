@@ -14,7 +14,6 @@ export class FileService {
 
   file: File;
   newFileLoaded = new Subject();
-  user = new UserDetails(1, 'Harry', Date.now(), 'harry.jpeg');
 
   constructor(private http: Http,
     private userService: UserService) { }
@@ -22,6 +21,11 @@ export class FileService {
   public getFileList() {
     return this.http.get(`${ environment.server.url }api/file/all/${ this.userService.getUserDetails().userId }`)
       .map(res => <FileList[]>res.json());
+  }
+
+  public getFile(fileId: string) {
+    return this.http.get(`${ environment.server.url }api/file/${ fileId }`)
+      .map(res => <File>res.json());
   }
 
   public loadFile (fileId): boolean {

@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FileListComponent } from './files/file-list/file-list.component';
-import { FileComponent } from './files/file/file.component';
+import { FileComponent } from './files/file-form/file.component';
 import { AuthGuard } from './shared/directives/auth.guard';
 import { LoginComponent } from './shared/components/login/login.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { TeamListComponent } from './teams/team-list/team-list.component';
+import { SearchComponent } from './files/search/search.component';
 
 const routes: Routes = [
 
@@ -13,6 +15,8 @@ const routes: Routes = [
     children: [
       { path: 'MyFiles', component: FileListComponent,  canActivate: [AuthGuard]},
       { path: 'File', component: FileComponent,  canActivate: [AuthGuard] },
+      { path: 'MyTeams', component: TeamListComponent,  canActivate: [AuthGuard] },
+      { path: 'AllFiles', component: SearchComponent,  canActivate: [AuthGuard] },
     ]},
 ];
 

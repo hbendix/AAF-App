@@ -3,7 +3,8 @@ import { FileService } from '../shared/file.service';
 import { FileList } from '../shared/file-list';
 import { Router } from '@angular/router';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MatYearView } from '@angular/material';
+import { MatYearView, MatBottomSheet } from '@angular/material';
+import { FileSheetComponent } from '../file-sheet/file-sheet.component';
 
 @Component({
   selector: 'app-file-list',
@@ -20,13 +21,14 @@ export class FileListComponent implements OnInit {
 
   constructor(private fileService: FileService,
     private router: Router,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private bottomSheet: MatBottomSheet) { }
 
   ngOnInit() {
     this.getFileList();
   }
 
-  public async getFileList  () {
+  public getFileList  () {
     this.fileService.getFileList().subscribe((res) => {
       this.myFiles = res;
     }, (err) => {
@@ -35,13 +37,10 @@ export class FileListComponent implements OnInit {
     });
   }
 
-  public async showFile (fileId) {
-    const file = await this.fileService.loadFile(fileId);
-    if ((file) && (this.router.url !== '/File')) {
-      this.router.navigate(['/File']);
-    } else if ((file) && (this.router.url === '/File')) {
-      this.fileService.newFileLoaded.next(true);
-    }
+  public showFile (fileId: string) {
+    const bottomSheetRef = this.bottomSheet.open(FileSheetComponent, {
+      data: { fileId: fileId }
+    });
   }
 
 }

@@ -1,0 +1,31 @@
+<mat-card class="example-card" *ngIf="viewFile !== undefined">
+  <mat-card-header>
+    <mat-card-title>{{ viewFile.title }} <span class="file-type">({{ viewFile.fileType }})</span></mat-card-title>
+    <mat-card-subtitle>{{ viewFile.size }}{{ viewFile.sizeType }}</mat-card-subtitle>
+  </mat-card-header>
+  <div  style="margin: 8px 0px;">
+      <mat-chip-list>
+        <mat-chip color="primary" selected *ngFor="let item of viewFile.tags">
+          {{item}}
+        </mat-chip>
+      </mat-chip-list>
+  </div>
+  <mat-card-content>
+    <p>
+      {{ viewFile.description }}
+    </p>
+    <p class="italic">
+      Created by {{ viewFile.createdBy.name }} on {{ viewFile.createdBy.when | date:'medium' }}
+    </p>
+    <p class="italic">
+      Last edited by {{ viewFile.updatedBy.name }} on {{ viewFile.updatedBy.when | date:'medium' }}
+    </p>  
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-stroked-button 
+            color="accent" 
+            style="float:right;"
+            [disabled]="!canEdit()">CHECK OUT AND EDIT</button>
+    <button mat-button color="warn" (click)="close()">CLOSE</button>
+  </mat-card-actions>
+</mat-card>

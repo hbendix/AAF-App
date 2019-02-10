@@ -1,9 +1,18 @@
+import { UserDetails } from 'src/app/users/shared/user-details';
+
 export class Team {
     id: number;
     name: string;
+    users: UserDetails[];
+    createdBy: UserDetails;
 
-    constructor (id: number, name: string) {
+    constructor (id: number,
+        name: string,
+        users: UserDetails[],
+        createdBy: UserDetails) {
         this.id = id;
         this.name = name;
+        this.users = users;
+        this.createdBy = createdBy;
     }
 }

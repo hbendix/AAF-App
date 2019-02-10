@@ -1,0 +1,43 @@
+.file-container {
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+}
+    
+.file-container > * {
+    width: 100%;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+.radio-group {
+    display: contents;
+
+    > * {
+    margin: 8px 0px;
+    }
+}
+
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+}
+
+.search-icon {
+    cursor: pointer;
+    color: #3f51b5
+}
+he {
+    display: flex;
+}
+.fill {
+    // This fills the remaining space, by using flexbox.
+    // Every toolbar row uses a flexbox row layout.
+    flex: 1 1 auto;
+  }

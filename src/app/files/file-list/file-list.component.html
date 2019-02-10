@@ -3,8 +3,10 @@
     <div class="col-12" *ngIf="myFiles.length > 0">
       <mat-selection-list>
         <h3 mat-subheader>My Files</h3>
-        <mat-list-item *ngFor="let file of myFiles"
-        (click)="showFile()">
+        <mat-list-option 
+          *ngFor="let file of myFiles"
+          (click)="showFile(file._id)" 
+          class="file-list">
           <mat-icon mat-list-icon>folder</mat-icon>
           <h4 mat-line>
             {{file.title}} - v{{file.version}}
@@ -14,7 +16,7 @@
           </h4>
           <p mat-line>{{ file.fileType }}</p>
           <p mat-line>{{ file.size }} {{ file.sizeType }}</p>
-        </mat-list-item>
+        </mat-list-option>
         <mat-divider></mat-divider>
       </mat-selection-list>
     </div>

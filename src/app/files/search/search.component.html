@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row" *ngIf="search">
+    <div class="col-12">
+      <div class="file-container">  
+        <form>  
+          <mat-form-field class="example-full-width">
+            <input type="tel" matInput placeholder="File Title...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          <section class="example-section">
+              <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
+              <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox>
+            </section>
+          <button mat-raised-button color="accent" (click)="search = !search">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!search">
+    <div class="col-12">
+      <mat-selection-list>
+          <h3 mat-subheader>
+            All Files
+            <span class="fill"></span>
+            <mat-icon class="search-icon" (click)="search = !search">search</mat-icon>
+          </h3>
+          <mat-divider></mat-divider>
+        </mat-selection-list>
+    </div>
+  </div>
+</div>
