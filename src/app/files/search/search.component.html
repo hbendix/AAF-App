@@ -3,14 +3,50 @@
     <div class="col-12">
       <div class="file-container">  
         <form>  
-          <mat-form-field class="example-full-width">
-            <input type="tel" matInput placeholder="File Title...">
+          <mat-form-field class="full-width" appearance="outline">
+              <mat-label>File Title</mat-label>
+              <input type="tel" matInput placeholder="File Title...">
             <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field> 
+
+          <mat-form-field appearance="outline">
+              <mat-label>Size</mat-label>
+              <input  matInput 
+                      type="number"
+                      placeholder="Size">
+              <mat-select placeholder="Select Size Type" matSuffix>
+                <mat-option *ngFor="let type of sizeTypes" [value]="type">{{type}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline">
+              <mat-label>Size Type</mat-label>
+              <mat-select placeholder="Select Size Type">
+                <mat-option *ngFor="let type of sizeTypes" [value]="type">{{type}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>File Type</mat-label>
+            <mat-select placeholder="Select File Type">
+              <mat-option *ngFor="let type of fileTypes" [value]="type">{{type}}</mat-option>
+            </mat-select>
           </mat-form-field>
-          <section class="example-section">
-              <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
-              <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox>
-            </section>
+
+          <mat-form-field appearance="outline">
+              <mat-label>Filter by User</mat-label>
+              <mat-select placeholder="Select User"
+                          multiple>
+                <mat-option *ngFor="let user of users" [value]="user">{{user.name}} ({{user.location}})</mat-option>
+              </mat-select>
+            </mat-form-field>  
+            <mat-form-field appearance="outline">
+              <mat-label>Filter by Team</mat-label>
+              <mat-select placeholder="Select Team"
+                          multiple>
+                <mat-option *ngFor="let team of teams" [value]="team">{{team.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
           <button mat-raised-button color="accent" (click)="search = !search">
             Search
           </button>
