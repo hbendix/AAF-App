@@ -1,3 +1,6 @@
+/**
+ * User class, used to update files with latest actions
+ */
 export class UserDetails {
     userId: string;
     name: string;

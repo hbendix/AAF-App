@@ -1,3 +1,6 @@
+/**
+ * User that gets stored in localStorage
+ */
 export class User {
     id: string;
     name: string;

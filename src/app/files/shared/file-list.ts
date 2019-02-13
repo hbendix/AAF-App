@@ -1,5 +1,8 @@
 import { UserDetails } from 'src/app/users/shared/user-details';
 
+/**
+ * Model for displaying list of files
+ */
 export class FileList {
 
     id: number;

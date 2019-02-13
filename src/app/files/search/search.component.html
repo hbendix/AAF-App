@@ -2,68 +2,91 @@
   <div class="row" *ngIf="search">
     <div class="col-12">
       <div class="file-container">  
-        <form>  
+        <form [formGroup]="searchForm">  
           <mat-form-field class="full-width" appearance="outline">
               <mat-label>File Title</mat-label>
-              <input type="tel" matInput placeholder="File Title...">
-            <mat-icon matSuffix>search</mat-icon>
+              <input  type="tel" 
+                      matInput 
+                      placeholder="File Title..."
+                      formControlName="title">
           </mat-form-field> 
 
-          <mat-form-field appearance="outline">
-              <mat-label>Size</mat-label>
-              <input  matInput 
-                      type="number"
-                      placeholder="Size">
-              <mat-select placeholder="Select Size Type" matSuffix>
-                <mat-option *ngFor="let type of sizeTypes" [value]="type">{{type}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+          <mat-form-field appearance="outline" style="padding-bottom:0px;">
+            <mat-label>Size</mat-label>
+            <input  matInput 
+                    type="number"
+                    formControlName="size"
+                    placeholder="Size">            
+          </mat-form-field>
+
+          <mat-radio-group  name="grpName" 
+                            class="radio-group"
+                            style="padding-bottom: 1.34375em;"
+                            formControlName="greaterThan"
+                            *ngIf="searchForm.value.size !== ''">
+              <mat-radio-button [value]=true>
+                Greater Than 
+                <span *ngIf="searchForm.value.size !== ''">
+                  {{ searchForm.value.size }}?
+                </span>
+              </mat-radio-button>
+              <mat-radio-button [value]=false>
+                Less Than
+                <span *ngIf="searchForm.value.size !== ''">
+                    {{ searchForm.value.size }}?
+                  </span>
+              </mat-radio-button>
+            </mat-radio-group>
   
             <mat-form-field appearance="outline">
               <mat-label>Size Type</mat-label>
-              <mat-select placeholder="Select Size Type">
+              <mat-select placeholder="Select Size Type"
+                          formControlName="sizeType">
                 <mat-option *ngFor="let type of sizeTypes" [value]="type">{{type}}</mat-option>
               </mat-select>
             </mat-form-field>
 
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>File Type</mat-label>
-            <mat-select placeholder="Select File Type">
+            <mat-select placeholder="Select File Type"
+                        formControlName="fileType">
               <mat-option *ngFor="let type of fileTypes" [value]="type">{{type}}</mat-option>
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
-              <mat-label>Filter by User</mat-label>
-              <mat-select placeholder="Select User"
-                          multiple>
-                <mat-option *ngFor="let user of users" [value]="user">{{user.name}} ({{user.location}})</mat-option>
-              </mat-select>
-            </mat-form-field>  
-            <mat-form-field appearance="outline">
-              <mat-label>Filter by Team</mat-label>
-              <mat-select placeholder="Select Team"
-                          multiple>
-                <mat-option *ngFor="let team of teams" [value]="team">{{team.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          <button mat-raised-button color="accent" (click)="search = !search">
-            Search
-          </button>
+          <section>
+            <button mat-raised-button color="accent" style="float:right" (click)="searchFiles()" [disabled]="searchForm.invalid">
+              <mat-icon>
+                search
+              </mat-icon>
+            </button>
+            <button mat-raised-button color="" (click)="search = !search">
+              Close
+            </button>
+          </section>
         </form>
+        <mat-divider style="    margin: 16px 0px;"></mat-divider>
       </div>
     </div>
   </div>
   <div class="row" *ngIf="!search">
     <div class="col-12">
-      <mat-selection-list>
-          <h3 mat-subheader>
-            All Files
-            <span class="fill"></span>
-            <mat-icon class="search-icon" (click)="search = !search">search</mat-icon>
-          </h3>
-          <mat-divider></mat-divider>
-        </mat-selection-list>
+      <h3 mat-subheader class="subHeader">
+        All Files
+        <span class="fill"></span>
+        <button mat-stroked-button color="warn" (click)="pullPublicFiles()" style="margin-right:8px;">
+          <mat-icon class="search-icon">clear_all</mat-icon>
+        </button>
+        <button mat-stroked-button color="accent" (click)="showSearchArea()">
+          <mat-icon class="search-icon">search</mat-icon>
+        </button>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <mat-progress-spinner class="mat-progress-spinner" *ngIf="!loaded" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
+        <app-file-list *ngIf="loaded"></app-file-list>
     </div>
   </div>
 </div>

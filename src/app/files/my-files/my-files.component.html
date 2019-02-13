@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h3 mat-subheader class="subHeader">My Files</h3>
+      <app-file-list *ngIf="loaded"></app-file-list>
+      <mat-progress-spinner class="mat-progress-spinner" *ngIf="!loaded" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
+    </div>
+  </div>
+</div>

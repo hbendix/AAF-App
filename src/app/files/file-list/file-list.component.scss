@@ -3,3 +3,14 @@
     color: gray;
     font-style: italic;
 }
+table {
+    width: 100%;
+}
+
+.mat-row {
+    cursor: pointer;    
+}
+
+.mat-row:hover {
+    background-color: rgba(0,0,0,.04);
+}

@@ -11,10 +11,16 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 export class TeamListComponent implements OnInit {
 
   myTeams: Team[] = [];
+  color = 'accent';
+  mode = 'indeterminate';
+  value = 50;
 
   constructor(private teamService: TeamService,
     private notificationService: NotificationService) { }
 
+  /**
+   * Display list of teams
+   */
   ngOnInit() {
     this.teamService.getTeams().subscribe(
       (res) => {

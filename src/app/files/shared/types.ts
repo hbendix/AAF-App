@@ -1,5 +1,6 @@
 export class Types {
 
+    // static arrays with all size and file types.
     static fileTypes () {
         return [
             '.mp3',

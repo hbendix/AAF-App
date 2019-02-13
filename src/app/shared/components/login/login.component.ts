@@ -12,8 +12,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  // username = new FormControl('', [Validators.required]);
-  // password = new FormControl('', [Validators.required, Validators.minLength(6)]);
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -39,6 +37,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * Log user in, if success save user details to browser local storage and navigate to home page
+   */
   public login () {
     const toLogin = {
       username: this.loginForm.value.username,
@@ -59,6 +60,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // getters used for form validation
   get username() {
     return this.loginForm.get('username');
   }

@@ -19,12 +19,16 @@ export class FileSheetComponent implements OnInit {
   private fileService: FileService,
   private notificationService: NotificationService,
   private userService: UserService,
-  public dialogRef: MatBottomSheetRef<FileSheetComponent>) {
-    console.log(this.file);
-  }
+  public dialogRef: MatBottomSheetRef<FileSheetComponent>) { }
+
   ngOnInit() {
     this.getFile();
   }
+
+
+  /**
+   * Get the file by the fileID that gets passing into the component from a parent component
+   */
   public getFile () {
     this.fileService.getFile(this.file.fileId).subscribe(
       (res) => {
@@ -36,6 +40,10 @@ export class FileSheetComponent implements OnInit {
     );
   }
 
+  /**
+   * Used to set state on button in the HTML (disabled, not-disabled)
+   * Checks to see if current user can Check out and Edit file.
+   */
   public canEdit () {
     if (this.viewFile !== null) {
       const id = this.userService.getUserDetails().userId;
@@ -45,7 +53,7 @@ export class FileSheetComponent implements OnInit {
         }
       }
 
-      if ((this.viewFile.createdBy.userId === id) || (this.viewFile.updateBy.userId)) {
+      if ((this.viewFile.createdBy.userId === id) || (this.viewFile.updateBy.userId === id)) {
         return true;
       }
 
@@ -54,6 +62,9 @@ export class FileSheetComponent implements OnInit {
 
   }
 
+  /**
+   * Close bottom sheet.
+   */
   public close () {
     this.dialogRef.dismiss();
   }

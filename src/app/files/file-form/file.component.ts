@@ -37,6 +37,8 @@ export class FileComponent implements OnInit {
     private userService: UserService,
     private notificationService: NotificationService,
     private router: Router) {
+
+      // UserDetails is required when creating a new file.
       this.currentUser = new UserDetails(
         this.userService.getUserDetails().userId,
         this.userService.getUserDetails().username,
@@ -45,10 +47,11 @@ export class FileComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.file = this.fileService.getFileToView();
+    // const file extensions and size type, KB MB GB etc..
     this.fileTypes = Types.fileTypes();
     this.sizeTypes = Types.sizeTypes();
 
+    // get all teams associated with logged in user
     this.teamService.getTeams()
       .subscribe(
         (res) => {
@@ -59,6 +62,7 @@ export class FileComponent implements OnInit {
         }
     );
 
+    // get all users on the system, as you can share files with users.
     this.userService.getAll()
       .subscribe(
         (res) => {
@@ -70,12 +74,7 @@ export class FileComponent implements OnInit {
         }
       );
 
-    this.fileService.newFileLoaded.subscribe(result => {
-      if (result) {
-        this.file = this.fileService.getFileToView();
-      }
-    });
-
+    // set up the form group with all required validation for adding to the DB
     this.fileForm = this.fb.group({
       hideRequired: false,
       floatLabel: 'auto',
@@ -104,17 +103,28 @@ export class FileComponent implements OnInit {
     });
   }
 
-  public addTag(tag) {
+  /**
+   *
+   * @param tag add tag to array to be saved alongside file
+   */
+  public addTag(tag: string) {
     this.fileTags.nativeElement.value = '';
     this.tags.push(tag);
 
   }
 
+  /**
+   *
+   * @param tag remove tag from array
+   */
   public removeTag (tag) {
     this.tags.splice(tag, 1);
     this.fileTags.nativeElement.value = '';
   }
 
+  /**
+   * Add file to the database.
+   */
   public addFile() {
     const file = this.fileForm.value;
     if (this.tags.length > 0) {
@@ -150,7 +160,7 @@ export class FileComponent implements OnInit {
     );
   }
 
-
+  // getters are used for Reactive forms to get error message for any input
   get version() {
     return this.fileForm.get('version');
   }

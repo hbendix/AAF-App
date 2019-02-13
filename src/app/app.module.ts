@@ -55,6 +55,7 @@ import { LoginComponent } from './shared/components/login/login.component';
 import { FileSheetComponent } from './files/file-sheet/file-sheet.component';
 import { TeamListComponent } from './teams/team-list/team-list.component';
 import { SearchComponent } from './files/search/search.component';
+import { MyFilesComponent } from './files/my-files/my-files.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { SearchComponent } from './files/search/search.component';
     FileSheetComponent,
     TeamListComponent,
     SearchComponent,
+    MyFilesComponent,
   ],
   imports: [
     FormsModule,

@@ -16,12 +16,12 @@
       <mat-toolbar><h1>Welcome back, {{ username }}</h1></mat-toolbar>
   </section>
     <mat-nav-list>
-      <a mat-list-item href="#" routerLinkActive="router-link-active">          
+      <!-- <a mat-list-item href="#" routerLinkActive="router-link-active">          
           <mat-icon>
             view_compact
           </mat-icon>
         Dashboard
-      </a>
+      </a> -->
       <a mat-list-item [routerLink]="['/MyFiles']" routerLinkActive="router-link-active">
         <mat-icon>
           cloud_queue
@@ -52,6 +52,14 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>File Share</span>
+      <span class="fill"></span>
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="logout()">
+        <mat-icon aria-label="Logout">exit_to_app</mat-icon>
+      </button>
     </mat-toolbar>
     <router-outlet></router-outlet>
     <button mat-fab 

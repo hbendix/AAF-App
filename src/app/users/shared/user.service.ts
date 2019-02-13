@@ -14,6 +14,9 @@ export class UserService {
     return this.http.post(`${ environment.server.url }api/user`, toLogin);
   }
 
+  /**
+   * Set local storage to logged in user details
+   */
   public setUserDetails (user: any) {
     localStorage.setItem('userId', user.id);
     localStorage.setItem('isAdmin', user.isAdmin);
@@ -21,6 +24,9 @@ export class UserService {
     localStorage.setItem('username', user.username);
   }
 
+  /**
+   * Return user information
+   */
   public getUserDetails () {
     return {
       userId: localStorage.getItem('userId'),
@@ -30,6 +36,9 @@ export class UserService {
     };
   }
 
+  /**
+   * Get all users on the server
+   */
   public getAll () {
     return this.http.get(`${ environment.server.url }api/user/all`)
       .map(res => <User[]>res.json());

@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col-12" *ngIf="myTeams.length > 0">
-      <mat-selection-list>
-        <h3 mat-subheader>My Teams</h3>
+    <div class="col-12" >
+      <h3 mat-subheader class="subHeader">My Teams</h3>
+      <mat-selection-list *ngIf="myTeams.length > 0">
         <mat-list-option 
           *ngFor="let team of myTeams"
           (click)="showTeam(team._id)" 

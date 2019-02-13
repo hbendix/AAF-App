@@ -8,6 +8,11 @@ export class NotificationService {
 
   constructor(private snackBar: MatSnackBar) { }
 
+  /**
+   * @param message Message to display on the notification
+   * @param success show error or success message
+   * @param duration how long to stay on the screen
+   */
   public triggerNotification (message: string, success: boolean, duration: number) {
     let panelClass: string;
 

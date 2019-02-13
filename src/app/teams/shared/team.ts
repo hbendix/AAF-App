@@ -1,5 +1,8 @@
 import { UserDetails } from 'src/app/users/shared/user-details';
 
+/**
+ * team model
+ */
 export class Team {
     id: number;
     name: string;

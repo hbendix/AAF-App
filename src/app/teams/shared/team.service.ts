@@ -15,6 +15,9 @@ export class TeamService {
   constructor(private http: Http,
     private userService: UserService) { }
 
+  /**
+   * Return a list of all teams user belongs to
+   */
   public getTeams () {
     return this.http.get(`${ environment.server.url }api/team/all/${ this.userService.getUserDetails().userId }`)
       .map(res => <Team[]>res.json());

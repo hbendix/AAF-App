@@ -1,6 +1,9 @@
 import { UserDetails } from '../../users/shared/user-details';
 import { Team } from 'src/app/teams/shared/team';
 
+/**
+ * File model that matches mongoose schema.
+ */
 export class File {
 
     version: number;
