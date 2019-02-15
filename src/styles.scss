@@ -48,3 +48,11 @@ body {
     // Every toolbar row uses a flexbox row layout.
     flex: 1 1 auto;
 }
+
+.checkedOut {
+    background-color: #F8BBD0;
+}
+
+.checkedOut:hover {
+    background-color: #F48FB1 !important;
+}

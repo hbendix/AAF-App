@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FileService } from '../shared/file.service';
 import { File } from '../shared/file';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './file.component.html',
   styleUrls: ['./file.component.scss']
 })
-export class FileComponent implements OnInit {
+export class FileComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileTags') fileTags: ElementRef;
   fileForm: FormGroup = null;
@@ -81,6 +81,7 @@ export class FileComponent implements OnInit {
         (res) => {
           res.splice(res.findIndex(item => item.name ===  this.userService.getUserDetails().username), 1);
           this.users = res;
+          console.log(this.users);
           this.setupForm();
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
@@ -154,7 +155,7 @@ export class FileComponent implements OnInit {
       ]],
       isPublic: [this.file.isPublic, Validators.required],
       fileTeams: [this.file.teams !== null ? this.file.teams.map(team => team.teamId) : ''],
-      canEdit: [this.file.canEdit],
+      canEdit: [this.file.canEdit !== null ? this.file.canEdit.map(user => user.userId) : ''],
     });
 
     this.tags = this.file.tags;
@@ -202,7 +203,9 @@ export class FileComponent implements OnInit {
     // to get the mat-select multiple to pre select teams on edit,
     // had to change the value from the team object to the team id.
     let _teams = [];
+    let _canEdit = [];
     _teams = this.teams.filter((f: Team) => file.fileTeams.includes(f._id));
+    _canEdit = this.users.filter((u: User) => file.canEdit.includes(u._id));
 
     console.log(_teams);
 
@@ -220,9 +223,9 @@ export class FileComponent implements OnInit {
       file.isPublic,
       null,
       _teams,
-      file.canEdit,
+      _canEdit,
       null,
-      this.file._id !== null ? this.file._id : null
+      this.pendingEdit ? this.file._id : null
     );
 
     if (this.pendingEdit) {
@@ -236,6 +239,7 @@ export class FileComponent implements OnInit {
     this.fileService.updateFile(toAdd).subscribe(
       (res) => {
         this.notificationService.triggerNotification(`Saved '${ toAdd.title }'`, true, 3000);
+        this.fileService.filePendingEdit = false;
         this.router.navigate(['/MyFiles']);
       }, (err) => {
         this.notificationService.triggerNotification(`Error saving file '${ err.statusText }'`, false, 3000);
@@ -286,5 +290,10 @@ export class FileComponent implements OnInit {
   }
   get isPublic () {
     return this.fileForm.get('isPublic');
+  }
+
+  ngOnDestroy(): void {
+    this.fileService.filePendingEdit = false;
+    this.pendingEdit = false;
   }
 }

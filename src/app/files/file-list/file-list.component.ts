@@ -44,7 +44,6 @@ export class FileListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(this.paginator);
     this.dataSource.paginator = this.paginator;
   }
 
