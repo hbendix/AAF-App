@@ -27,7 +27,9 @@ export class NavbarComponent {
     private auth: AuthService,
     private router: Router,
     private notificationService: NotificationService) {
-      this.router.navigate(['/MyFiles']);
+      if (this.router.url === '/') {
+        this.router.navigate(['/MyFiles']);
+      }
     }
 
   public logout () {

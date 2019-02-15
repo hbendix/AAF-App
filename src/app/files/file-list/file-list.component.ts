@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FileService } from '../shared/file.service';
 import { FileList } from '../shared/file-list';
 import { Router } from '@angular/router';
@@ -11,10 +11,8 @@ import { FileSheetComponent } from '../file-sheet/file-sheet.component';
   templateUrl: './file-list.component.html',
   styleUrls: ['./file-list.component.scss']
 })
-export class FileListComponent implements OnInit {
-
+export class FileListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
 
   myFiles: FileList[] = [];
   // columns to be displayed on the table
@@ -45,6 +43,11 @@ export class FileListComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    console.log(this.paginator);
+    this.dataSource.paginator = this.paginator;
+  }
+
   /**
    * Get the FileList stored in the FileService
    * Setup Angular Material pagination. Set table DataSource to FileList
@@ -54,11 +57,9 @@ export class FileListComponent implements OnInit {
 
     if (this.myFiles !== null) {
       this.dataSource = new MatTableDataSource<FileList>(this.myFiles);
-      this.dataSource.paginator = this.paginator;
     } else {
       this.notificationService.triggerNotification('Error loading File List.', false, 3000);
     }
-
   }
 
   /**

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row" *ngIf="addNew">
     <div class="col-12">
-      <div class="file-container">  
+      <div class="file-container" *ngIf="fileForm !== null">  
         <form [formGroup]="fileForm">          
 
           <mat-form-field appearance="outline" [hideRequiredMarker]="false">
@@ -86,14 +86,19 @@
           <mat-form-field appearance="outline">
             <mat-label>Share with Team</mat-label>
             <mat-select placeholder="Select Team"
-                        formControlName="teams"
+                        formControlName="fileTeams"
                         multiple>
-              <mat-option *ngFor="let team of teams" [value]="team">{{team.name}}</mat-option>
+              <mat-option *ngFor="let team of teams" [value]="team._id">{{team.name}}</mat-option>
             </mat-select>
           </mat-form-field>
-              
-          <button mat-raised-button color="accent" [disabled]="fileForm.invalid" style="margin-top:16px;" (click)="addFile()">Add New</button>
-      </form>
+        </form>
+        <p> {{ fileForm.value | json }} </p>
+        <button mat-raised-button color="accent" [disabled]="fileForm.invalid" *ngIf="!pendingEdit" style="margin-top:16px;float:right;" (click)="addFile()">Add New</button>
+        <button mat-raised-button color="warn" [disabled]="fileForm.invalid" *ngIf="pendingEdit" style="margin-top:16px;" (click)="deleteFile()">Delete</button>
+        <button mat-raised-button color="accent" [disabled]="fileForm.invalid" *ngIf="pendingEdit" style="margin-top:16px;float:right;" (click)="addFile()">Update</button>
+      </div>
+      <div class="file-container" *ngIf="fileForm === null">
+        <mat-progress-spinner class="mat-progress-spinner" *ngIf="!loaded" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
       </div>
     </div>
   </div>

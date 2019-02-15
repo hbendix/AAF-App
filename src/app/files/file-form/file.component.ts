@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 export class FileComponent implements OnInit {
 
   @ViewChild('fileTags') fileTags: ElementRef;
-  fileForm: FormGroup;
+  fileForm: FormGroup = null;
   file: File;
   fileTypes: string[];
   sizeTypes: string[];
@@ -30,6 +30,10 @@ export class FileComponent implements OnInit {
   addNew = true;
   currentUser: UserDetails;
   fileVersion = 1;
+  pendingEdit = false;
+  color = 'accent';
+  mode = 'indeterminate';
+  value = 50;
 
   constructor(private fileService: FileService,
     private fb: FormBuilder,
@@ -47,33 +51,55 @@ export class FileComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.pendingEdit = this.fileService.filePendingEdit;
+
     // const file extensions and size type, KB MB GB etc..
     this.fileTypes = Types.fileTypes();
     this.sizeTypes = Types.sizeTypes();
 
+    this.getTeams();
+  }
+
+  private getTeams(): any {
     // get all teams associated with logged in user
     this.teamService.getTeams()
       .subscribe(
         (res) => {
           this.teams = res;
+          this.getUsers();
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
           console.log(err);
         }
     );
+  }
 
+  private getUsers(): any {
     // get all users on the system, as you can share files with users.
     this.userService.getAll()
       .subscribe(
         (res) => {
           res.splice(res.findIndex(item => item.name ===  this.userService.getUserDetails().username), 1);
           this.users = res;
+          this.setupForm();
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
           console.log(err);
         }
       );
+  }
 
+  private setupForm(): any {
+    if (this.pendingEdit) {
+      this.file = this.fileService.getFileToEdit();
+      console.log(this.teams, this.file.teams);
+      this.setupEditForm();
+    } else {
+      this.setupNewForm();
+    }
+  }
+
+  private setupNewForm(): any {
     // set up the form group with all required validation for adding to the DB
     this.fileForm = this.fb.group({
       hideRequired: false,
@@ -98,9 +124,40 @@ export class FileComponent implements OnInit {
         Validators.required
       ]],
       isPublic: [false, Validators.required],
-      teams: [],
+      fileTeams: [],
       canEdit: [],
     });
+  }
+  private setupEditForm(): any {
+    // set up the form group with all required validation for adding to the DB
+    this.fileForm = this.fb.group({
+      hideRequired: false,
+      floatLabel: 'auto',
+      version: [ this.file.version,
+        { disabled: true }, [
+          Validators.required
+        ]
+      ],
+      title: [this.file.title, [
+        Validators.required
+      ]],
+      description: [this.file.description],
+      fileType:  [this.file.fileType, [
+        Validators.required
+      ]],
+      size: [this.file.size, [
+        Validators.required,
+        Validators.min(0)
+      ]],
+      sizeType: [this.file.sizeType, [
+        Validators.required
+      ]],
+      isPublic: [this.file.isPublic, Validators.required],
+      fileTeams: [this.file.teams !== null ? this.file.teams.map(team => team.teamId) : ''],
+      canEdit: [this.file.canEdit],
+    });
+
+    this.tags = this.file.tags;
   }
 
   /**
@@ -122,6 +179,16 @@ export class FileComponent implements OnInit {
     this.fileTags.nativeElement.value = '';
   }
 
+  public isTeam(team: Team) {
+    if (this.pendingEdit) {
+      if (this.file.teams.some(e => e._id === team._id)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   /**
    * Add file to the database.
    */
@@ -131,6 +198,13 @@ export class FileComponent implements OnInit {
       file.tags = [];
       file.tags = this.tags;
     }
+
+    // to get the mat-select multiple to pre select teams on edit,
+    // had to change the value from the team object to the team id.
+    let _teams = [];
+    _teams = this.teams.filter((f: Team) => file.fileTeams.includes(f._id));
+
+    console.log(_teams);
 
     const toAdd = new File(
       this.fileVersion,
@@ -145,17 +219,51 @@ export class FileComponent implements OnInit {
       null,
       file.isPublic,
       null,
-      file.teams,
+      _teams,
       file.canEdit,
-      null, null);
+      null,
+      this.file._id !== null ? this.file._id : null
+    );
 
-
-    this.fileService.addFile(toAdd).subscribe(
+    if (this.pendingEdit) {
+      console.log(toAdd);
+      this.putFile(toAdd);
+    } else {
+      this.postFile(toAdd);
+    }
+  }
+  private putFile(toAdd: File): any {
+    this.fileService.updateFile(toAdd).subscribe(
       (res) => {
-        this.notificationService.triggerNotification(`Saved '${ file.title }'`, true, 3000);
+        this.notificationService.triggerNotification(`Saved '${ toAdd.title }'`, true, 3000);
         this.router.navigate(['/MyFiles']);
       }, (err) => {
-        this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
+        this.notificationService.triggerNotification(`Error saving file '${ err.statusText }'`, false, 3000);
+      }
+    );
+  }
+
+  private postFile(toAdd: File): any {
+    this.fileService.addFile(toAdd).subscribe(
+      (res) => {
+        this.notificationService.triggerNotification(`Saved '${ toAdd.title }'`, true, 3000);
+        this.router.navigate(['/MyFiles']);
+      }, (err) => {
+        this.notificationService.triggerNotification(`Error adding file '${ err.statusText }'`, false, 3000);
+      }
+    );
+  }
+
+  /**
+   * delete
+   */
+  public delete(fileId: string) {
+    this.fileService.deleteFile(fileId).subscribe(
+      (res) => {
+        this.notificationService.triggerNotification('Deleted file', true, 3000);
+        this.router.navigate(['/MyFiles']);
+      }, (err) => {
+        this.notificationService.triggerNotification(`Error adding file '${ err.statusText }'`, false, 3000);
       }
     );
   }

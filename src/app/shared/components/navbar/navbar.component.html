@@ -1,8 +1,8 @@
 <mat-sidenav-container class="sidenav-container" autosize>
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)">
+      [mode]="(isHandset$ | async) ? 'over' : 'over'"
+      [opened]="false">
       <section class="head">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80" viewBox="0 0 167 167" role="img"
         aria-labelledby="welcomeTitle welcomeDesc" *ngIf="username === 'Harry'">

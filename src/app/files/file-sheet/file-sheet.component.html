@@ -22,10 +22,39 @@
     </p>  
   </mat-card-content>
   <mat-card-actions>
-    <button mat-stroked-button 
+    <button mat-raised-button 
             color="accent" 
             style="float:right;"
-            [disabled]="!canEdit()">CHECK OUT AND EDIT</button>
+            [disabled]="!userCanEdit || checkedOut"
+            *ngIf="!checkedOut && !thisUserCheckedOut"
+            (click)="checkout(viewFile)">
+      <span *ngIf="userCanEdit">CHECK OUT AND EDIT</span>
+      <span *ngIf="!userCanEdit">CAN'T EDIT THIS FILE</span>
+    </button>
+    
+    <button mat-raised-button 
+            color="accent" 
+            style="float:right;"
+            *ngIf="thisUserCheckedOut"
+            (click)="edit(viewFile)">
+      EDIT
+    </button>
+    <button mat-raised-button 
+            color="primary" 
+            style="float:right;"
+            *ngIf="thisUserCheckedOut"
+            (click)="checkIn(viewFile)">
+      CHECK IN
+    </button>
+
+    <section *ngIf="checkedOut">      
+      <p>
+        Checked out by {{ viewFile.checkedOut.by.name }}
+      </p>
+      <p>
+        On {{ viewFile.checkedOut.by.when | date:'medium' }}
+      </p>
+    </section>
     <button mat-button color="warn" (click)="close()">CLOSE</button>
   </mat-card-actions>
 </mat-card>

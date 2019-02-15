@@ -13,6 +13,7 @@ import { UserService } from 'src/app/users/shared/user.service';
 export class FileService {
 
   file: File;
+  public filePendingEdit = false;
 
   // observable to update file-list of data changes
   updateTable = new Subject();
@@ -28,10 +29,19 @@ export class FileService {
     return this.currentList;
   }
 
+  public getFileToEdit () {
+    return this.file;
+  }
+
   // gets called once server has returned a list of files
   public setFileList(data: FileList[]): any {
     this.currentList = data;
     return true;
+  }
+
+  public setFileToBeEdited (file: File) {
+    this.file = file;
+    this.filePendingEdit = true;
   }
 
   // pull files for user from the server
@@ -72,12 +82,21 @@ export class FileService {
     return this.http.post(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }`, file);
   }
 
-  public updateFile (): void {
-
+  public checkoutFile(fileId: string): any {
+    return this.http.put(`${ environment.server.url }api/file/checkout/${ this.userService.getUserDetails().userId }/${ fileId }`, {});
   }
 
-  public deleteFile (): void {
+  public checkInFile(fileId: string): any {
+    return this.http.put(`${ environment.server.url }api/file/checkIn/${ this.userService.getUserDetails().userId }/${ fileId }`, {});
+  }
 
+  public updateFile (file: File) {
+    file.size = this.sizeConversion(file.size, file.sizeType);
+    return this.http.put(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }/${ file._id }`, file);
+  }
+
+  public deleteFile (fileId) {
+    return this.http.delete(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }/${ fileId }`);
   }
 
   /**

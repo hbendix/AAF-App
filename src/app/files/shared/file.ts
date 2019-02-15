@@ -24,7 +24,7 @@ export class File {
     teams?: Team[];
     canEdit?: UserDetails[];
     perviousVersion?: number[];
-    id?: number;
+    _id?: string;
 
     constructor(
         version: number,
@@ -45,8 +45,8 @@ export class File {
         teams?: Team[],
         canEdit?: UserDetails[],
         perviousVersion?: number[],
-        id?: number) {
-            this.id  = id;
+        _id?: string) {
+            this._id  = _id;
             this.version = version;
             this.title = title;
             this.description = description;

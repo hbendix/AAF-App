@@ -1,6 +1,6 @@
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="myFiles" *ngIf="myFiles.length > 0">
+  <table mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="version">
         <th mat-header-cell *matHeaderCellDef> Version </th>
@@ -36,5 +36,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showFile(row)"></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>      
