@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row" *ngIf="!loading">
+    <div class="col-12 timeline">
+      <h3 mat-subheader class="subHeader">History for {{ fileTitle }}</h3>
+      <h6 mat-subheader class="subHeader">Created on {{ fileCreatedDate | date: 'dd/MM/yy' }}</h6>
+      <ul>
+        <li *ngFor="let file of files">
+          <span></span>
+          <div>
+            <div class="title">{{ file.title }} ({{ file.fileType }})</div>
+            <div class="type">{{ file.size }}{{ file.sizeType }}</div>
+            <div class="type">
+              <p>
+                {{ file.description }}
+              </p>
+            </div>
+            <div>
+              <mat-chip-list>
+                <mat-chip color="primary" selected *ngFor="let item of file.tags">
+                  {{item}}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div> 
+            <span class="number">
+              <span>
+                  {{ file.updatedBy.when | date:'dd/MM/yy HH:mm' }}
+              </span> 
+              <span></span>
+            </span>
+        </li>
+      </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- <mat-card class="example-card" *ngFor="let file of files">
+        <mat-card-header>
+          <mat-card-title>{{ file.title }} <span class="file-type">({{ file.fileType }})</span></mat-card-title>
+          <mat-card-subtitle>{{ file.size }}{{ file.sizeType }}</mat-card-subtitle>
+        </mat-card-header>
+        <div  style="margin: 8px 0px;">
+            <mat-chip-list>
+              <mat-chip color="primary" selected *ngFor="let item of file.tags">
+                {{item}}
+              </mat-chip>
+            </mat-chip-list>
+        </div>
+        <mat-card-content>
+          <p>
+            {{ file.description }}
+          </p>
+          <p class="italic">
+            Created by {{ file.createdBy.name }} on {{ file.createdBy.when | date:'medium' }}
+          </p>
+          <p class="italic">
+            Last edited by {{ file.updatedBy.name }} on {{ file.updatedBy.when | date:'medium' }}
+          </p>  
+        </mat-card-content>
+      </mat-card> -->
+    </div>
+  </div>
+  <div class="row" *ngIf="loading">
+    <div class="col-12">
+      <mat-progress-spinner class="mat-progress-spinner" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
+    </div>
+  </div>
+</div>

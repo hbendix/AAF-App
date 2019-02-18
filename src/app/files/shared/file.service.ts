@@ -14,6 +14,7 @@ export class FileService {
 
   file: File;
   public filePendingEdit = false;
+  public fileHistoryId: string;
 
   // observable to update file-list of data changes
   updateTable = new Subject();
@@ -42,6 +43,15 @@ export class FileService {
   public setFileToBeEdited (file: File) {
     this.file = file;
     this.filePendingEdit = true;
+  }
+
+  public setFileHistory(fileId: string): any {
+    this.fileHistoryId = fileId;
+  }
+
+  public getFileHistory () {
+      return this.http.get(`${ environment.server.url }api/file/history/${ this.fileHistoryId }`)
+        .map(res => <File[]>res.json());
   }
 
   // pull files for user from the server

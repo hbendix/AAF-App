@@ -92,6 +92,12 @@ export class FileSheetComponent implements OnInit {
     this.dialogRef.dismiss();
   }
 
+  public history (fileId: string) {
+    console.log(fileId);
+    this.fileService.setFileHistory(fileId);
+    this.router.navigate(['/History']);
+  }
+
   private isCheckedOut(): any {
     if (this.viewFile !== null) {
       if (!this.viewFile.checkedOut.true) {

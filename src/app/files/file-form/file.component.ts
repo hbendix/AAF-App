@@ -204,6 +204,7 @@ export class FileComponent implements OnInit, OnDestroy {
     // had to change the value from the team object to the team id.
     let _teams = [];
     let _canEdit = [];
+
     _teams = this.teams.filter((f: Team) => file.fileTeams.includes(f._id));
     _canEdit = this.users.filter((u: User) => file.canEdit.includes(u._id));
 
@@ -229,7 +230,6 @@ export class FileComponent implements OnInit, OnDestroy {
     );
 
     if (this.pendingEdit) {
-      console.log(toAdd);
       this.putFile(toAdd);
     } else {
       this.postFile(toAdd);

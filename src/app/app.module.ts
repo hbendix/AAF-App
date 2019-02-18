@@ -56,6 +56,7 @@ import { FileSheetComponent } from './files/file-sheet/file-sheet.component';
 import { TeamListComponent } from './teams/team-list/team-list.component';
 import { SearchComponent } from './files/search/search.component';
 import { MyFilesComponent } from './files/my-files/my-files.component';
+import { FileHistoryComponent } from './files/file-history/file-history.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MyFilesComponent } from './files/my-files/my-files.component';
     TeamListComponent,
     SearchComponent,
     MyFilesComponent,
+    FileHistoryComponent,
   ],
   imports: [
     FormsModule,

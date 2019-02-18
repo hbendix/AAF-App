@@ -30,7 +30,7 @@
             (click)="checkout(viewFile)">
       <span *ngIf="userCanEdit">CHECK OUT AND EDIT</span>
       <span *ngIf="!userCanEdit">CAN'T EDIT THIS FILE</span>
-    </button>
+    </button>   
     
     <button mat-raised-button 
             color="accent" 
@@ -56,5 +56,13 @@
       </p>
     </section>
     <button mat-button color="warn" (click)="close()">CLOSE</button>
+    <button mat-button 
+            color="accent" 
+            *ngIf="viewFile.version > 1"
+            (click)="history(viewFile._id)">
+            <mat-icon>
+              history
+            </mat-icon>
+    </button>
   </mat-card-actions>
 </mat-card>
