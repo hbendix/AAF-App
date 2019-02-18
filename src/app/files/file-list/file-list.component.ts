@@ -53,9 +53,10 @@ export class FileListComponent implements OnInit, AfterViewInit {
    */
   public getFileList  () {
     this.myFiles = this.fileService.getFileList();
-
+    console.log(this.myFiles);
     if (this.myFiles !== null) {
       this.dataSource = new MatTableDataSource<FileList>(this.myFiles);
+      this.dataSource.paginator = this.paginator;
     } else {
       this.notificationService.triggerNotification('Error loading File List.', false, 3000);
     }

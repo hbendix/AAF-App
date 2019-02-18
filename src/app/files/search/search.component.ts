@@ -94,10 +94,9 @@ export class SearchComponent implements OnInit {
     }
 
 
-    this.fileService.search(q).subscribe(
-      async (res) => {
+    this.fileService.search(q).subscribe((res) => {
         this.search = false;
-        await this.fileService.setFileList(res);
+        this.fileService.setFileList(res);
         this.fileService.updateTable.next(true);
       }, (err) => {
         this.notificationService.triggerNotification(`Error searching files: '${ err.statusText }'`, false, 3000);

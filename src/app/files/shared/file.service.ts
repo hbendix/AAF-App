@@ -37,7 +37,6 @@ export class FileService {
   // gets called once server has returned a list of files
   public setFileList(data: FileList[]): any {
     this.currentList = data;
-    return true;
   }
 
   public setFileToBeEdited (file: File) {
@@ -72,6 +71,7 @@ export class FileService {
    */
   public search(q: any) {
     q.size = this.sizeConversion(q.size, q.sizeType);
+    console.log(q.size);
     return this.http.post(`${ environment.server.url }api/file/search`, q)
       .map(res => <FileList[]>res.json());
   }

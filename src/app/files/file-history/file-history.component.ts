@@ -14,6 +14,7 @@ export class FileHistoryComponent implements OnInit {
   mode = 'indeterminate';
   value = 50;
   loading = true;
+  noFiles = false;
   fileTitle: string;
   fileCreatedDate: number;
 
@@ -34,7 +35,27 @@ export class FileHistoryComponent implements OnInit {
           this.notificationService.triggerNotification(`Error getting file history ${ err.statusText }`, false, 3000);
         }
       );
+    } else {
+      this.noFiles = true;
     }
+  }
+
+  public changed (current, previous, attribute, index) {
+    if (index > 0) {
+      if (typeof current === 'undefined' || typeof previous === 'undefined') {
+        return false;
+      }
+
+      if (current[attribute] !==  previous[attribute]) {
+        return 'changed';
+      } else if (current === previous) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+    return false;
   }
 
 }

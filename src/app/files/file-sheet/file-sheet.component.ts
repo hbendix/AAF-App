@@ -95,6 +95,7 @@ export class FileSheetComponent implements OnInit {
   public history (fileId: string) {
     console.log(fileId);
     this.fileService.setFileHistory(fileId);
+    this.dialogRef.dismiss();
     this.router.navigate(['/History']);
   }
 
