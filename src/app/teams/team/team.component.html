@@ -1,3 +1,36 @@
-<p>
-  team works!
-</p>
+<div class="container" style="margin-top: 20px;">
+  <div class="row">
+    <div class="col-12" *ngIf="loaded && team !== undefined">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{team.name}}</mat-card-title>
+          <mat-card-subtitle>{{team.users.length}} member(s)</mat-card-subtitle>
+          <mat-card-subtitle style="font-style:italic;">Created by {{team.createdBy.name }} on {{ team.createdBy.when | date: 'dd/MM/yy' }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <h3 class="subHeader" style="margin:16px 4px 8px 4px;">Users</h3>
+            <mat-list *ngIf="team.users.length > 0">
+                <mat-list-item 
+                  *ngFor="let user of team.users"
+                  class="file-list">
+                  <mat-icon mat-list-icon>people</mat-icon>
+                  <h4 mat-line>
+                    {{ user.name }}
+                  </h4>
+                </mat-list-item>
+              </mat-list>
+          </mat-card-content>
+        <mat-card-content>
+          <h3 class="subHeader" style="margin:16px 4px 8px 4px;">Team files</h3>
+          <app-file-list></app-file-list>
+        </mat-card-content>
+      </mat-card>          
+    </div>
+    <div class="col-12" *ngIf="team === undefined"> 
+      <h3 class="subHeader">No team found for inspection.</h3>
+    </div>
+    <div class="col-12" *ngIf="!loaded"> 
+      <mat-progress-spinner class="mat-progress-spinner" *ngIf="!loaded" [color]="color" [value]="value" [mode]="mode" ></mat-progress-spinner>
+    </div>
+  </div>
+</div>

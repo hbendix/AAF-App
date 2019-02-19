@@ -21,15 +21,14 @@ export class FileHistoryComponent implements OnInit {
   constructor(private fileService: FileService,
     private notificationService: NotificationService) { }
 
+  // get service variable and load file history from server
   ngOnInit() {
     if (typeof this.fileService.fileHistoryId !== 'undefined') {
       this.fileService.getFileHistory().subscribe(
         (res) => {
-          console.log(res);
           this.files = res;
           this.fileTitle = this.files[0].title;
           this.fileCreatedDate = this.files[0].createdBy.when;
-          console.log(this.fileCreatedDate);
           this.loading = false;
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting file history ${ err.statusText }`, false, 3000);
@@ -40,6 +39,15 @@ export class FileHistoryComponent implements OnInit {
     }
   }
 
+  /**
+   * to check and see if file has changed, each attribute gets passed into and return CSS class name
+   * here and will determine if the value has changed
+   * however, only do it for the 2nd and below element (as obvs no previous version for first iteration of file!)
+   * @param current file
+   * @param previous file
+   * @param attribute tile, size etc...
+   * @param index index of loop
+   */
   public changed (current, previous, attribute, index) {
     if (index > 0) {
       if (typeof current === 'undefined' || typeof previous === 'undefined') {

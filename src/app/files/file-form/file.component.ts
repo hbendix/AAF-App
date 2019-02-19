@@ -93,7 +93,6 @@ export class FileComponent implements OnInit, OnDestroy {
   private setupForm(): any {
     if (this.pendingEdit) {
       this.file = this.fileService.getFileToEdit();
-      console.log(this.teams, this.file.teams);
       this.setupEditForm();
     } else {
       this.setupNewForm();
@@ -205,8 +204,12 @@ export class FileComponent implements OnInit, OnDestroy {
     let _teams = [];
     let _canEdit = [];
 
-    _teams = this.teams.filter((f: Team) => file.fileTeams.includes(f._id));
-    _canEdit = this.users.filter((u: User) => file.canEdit.includes(u._id));
+    if (file.fileTeams !== null) {
+      _teams = this.teams.filter((f: Team) => file.fileTeams.includes(f._id));
+    }
+    if (file.canEdit !== null) {
+      _canEdit = this.users.filter((u: User) => file.canEdit.includes(u._id));
+    }
 
     console.log(_teams);
 
@@ -261,9 +264,10 @@ export class FileComponent implements OnInit, OnDestroy {
   /**
    * delete
    */
-  public delete(fileId: string) {
-    this.fileService.deleteFile(fileId).subscribe(
+  public delete() {
+    this.fileService.deleteFile(this.file._id).subscribe(
       (res) => {
+        console.log(res);
         this.notificationService.triggerNotification('Deleted file', true, 3000);
         this.router.navigate(['/MyFiles']);
       }, (err) => {
@@ -292,6 +296,7 @@ export class FileComponent implements OnInit, OnDestroy {
     return this.fileForm.get('isPublic');
   }
 
+  // update service variables
   ngOnDestroy(): void {
     this.fileService.filePendingEdit = false;
     this.pendingEdit = false;

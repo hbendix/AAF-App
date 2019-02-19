@@ -13,7 +13,7 @@ export class File {
     size: number;
     sizeType: string;
     createdBy: UserDetails;
-    updateBy: UserDetails;
+    updatedBy: UserDetails;
     tags: string[];
     dormant: boolean;
     isPublic: boolean;
@@ -34,7 +34,7 @@ export class File {
         size: number,
         sizeType: string,
         createdBy: UserDetails,
-        updateBy: UserDetails,
+        updatedBy: UserDetails,
         tags: string[],
         dormant: boolean,
         isPublic: boolean,
@@ -54,7 +54,7 @@ export class File {
             this.size = size;
             this.sizeType = sizeType;
             this.createdBy = createdBy;
-            this.updateBy = updateBy;
+            this.updatedBy = updatedBy;
             this.checkedOut = checkedOut;
             this.tags = tags;
             this.dormant = dormant;
@@ -63,32 +63,4 @@ export class File {
             this.canEdit = canEdit;
             this.perviousVersion = perviousVersion;
     }
-
-    /**
-     * delete
-     */
-    public static delete(id: number) {
-
-    }
-
-    /**
-     * get
-     */
-    public static get(id: number) {
-
-    }
-    /**
-     * add
-     */
-    public add() {
-
-    }
-
-    /**
-     * edit
-     */
-    public edit() {
-
-    }
-
 }

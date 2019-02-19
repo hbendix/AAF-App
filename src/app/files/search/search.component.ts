@@ -24,6 +24,7 @@ export class SearchComponent implements OnInit {
   color = 'accent';
   mode = 'indeterminate';
   value = 50;
+  tags: any;
 
 
   constructor(private fb: FormBuilder,
@@ -33,7 +34,14 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.fileTypes = Types.fileTypes();
     this.sizeTypes = Types.sizeTypes();
-    this.pullPublicFiles();
+    this.fileService.getTags().subscribe(
+      (res) => {
+        this.tags = res.json();
+        this.pullPublicFiles();
+      }, (err) => {
+        this.notificationService.triggerNotification(`Error getting files '${ err.statusText }'`, false, 3000);
+      }
+    );
   }
 
   /**
@@ -44,7 +52,7 @@ export class SearchComponent implements OnInit {
   public pullPublicFiles () {
     this.fileService.pullPublicFiles().subscribe(
       (res) => {
-        this.fileService.setFileList(res);
+        this.fileService.setFileList(res, false);
         this.loaded = true;
         this.fileService.updateTable.next(true);
       }, (err) => {
@@ -63,6 +71,7 @@ export class SearchComponent implements OnInit {
       size: [null, Validators.min(0) ],
       greaterThan: [],
       sizeType: [],
+      tags: []
     });
 
     this.search = true;
@@ -96,7 +105,7 @@ export class SearchComponent implements OnInit {
 
     this.fileService.search(q).subscribe((res) => {
         this.search = false;
-        this.fileService.setFileList(res);
+        this.fileService.setFileList(res, false);
         this.fileService.updateTable.next(true);
       }, (err) => {
         this.notificationService.triggerNotification(`Error searching files: '${ err.statusText }'`, false, 3000);

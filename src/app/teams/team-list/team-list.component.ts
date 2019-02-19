@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Team } from '../shared/team';
 import { TeamService } from '../shared/team.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-list',
@@ -16,7 +17,8 @@ export class TeamListComponent implements OnInit {
   value = 50;
 
   constructor(private teamService: TeamService,
-    private notificationService: NotificationService) { }
+    private notificationService: NotificationService,
+    private router: Router) { }
 
   /**
    * Display list of teams
@@ -26,6 +28,18 @@ export class TeamListComponent implements OnInit {
       (res) => {
         this.myTeams = res;
         console.log(this.myTeams);
+      }, (err) => {
+        this.notificationService.triggerNotification(`Error pulling teams: ${ err.statusText }`, false, 3000);
+      }
+    );
+  }
+
+  // load full team details and files
+  public show (teamId: string) {
+    this.teamService.getTeam(teamId).subscribe(
+      (res) => {
+        this.teamService.setTeamToView(res);
+        this.router.navigate(['/Team']);
       }, (err) => {
         this.notificationService.triggerNotification(`Error pulling teams: ${ err.statusText }`, false, 3000);
       }

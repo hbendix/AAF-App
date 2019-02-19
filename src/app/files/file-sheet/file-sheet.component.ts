@@ -51,8 +51,6 @@ export class FileSheetComponent implements OnInit {
    * checkout file
    */
   public checkout(file: File) {
-    console.log(file);
-    console.log(file._id);
     this.fileService.checkoutFile(file._id).subscribe(
       (res) => {
         this.notificationService.triggerNotification('File checked out.', true, 3000);
@@ -79,6 +77,10 @@ export class FileSheetComponent implements OnInit {
     );
   }
 
+  /**
+   * update service so when File view gets loaded it knows it's editing and not adding
+   * @param file file to edit
+   */
   public edit (file: File) {
     this.fileService.setFileToBeEdited(file);
     this.dialogRef.dismiss();
@@ -92,6 +94,10 @@ export class FileSheetComponent implements OnInit {
     this.dialogRef.dismiss();
   }
 
+  /**
+   * get file history for file
+   * @param fileId string
+   */
   public history (fileId: string) {
     console.log(fileId);
     this.fileService.setFileHistory(fileId);
@@ -99,6 +105,9 @@ export class FileSheetComponent implements OnInit {
     this.router.navigate(['/History']);
   }
 
+  /**
+   * Determine what user can do to file (edit, check in/checkout)
+   */
   private isCheckedOut(): any {
     if (this.viewFile !== null) {
       if (!this.viewFile.checkedOut.true) {
@@ -126,7 +135,7 @@ export class FileSheetComponent implements OnInit {
         }
       }
 
-      if ((this.viewFile.createdBy.userId === id) || (this.viewFile.updateBy.userId === id)) {
+      if ((this.viewFile.createdBy.userId === id) || (this.viewFile.updatedBy.userId === id)) {
         return this.userCanEdit = true;
       }
 

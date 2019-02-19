@@ -1,5 +1,5 @@
 
-<div class="mat-elevation-z8">
+<div [ngClass]="{'mat-elevation-z8': !isTeam}">
   <table mat-table [dataSource]="dataSource">
 
       <ng-container matColumnDef="version">
@@ -34,7 +34,7 @@
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'checkedOut': row.checkedOut.true}" (click)="showFile(row)"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showFile(row)"></tr>
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons></mat-paginator>
 </div>      

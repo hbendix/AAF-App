@@ -13,10 +13,18 @@ import { UserService } from 'src/app/users/shared/user.service';
 export class FileService {
 
   file: File;
+
+  // when File view is loaded - is user editing or adding new
   public filePendingEdit = false;
+
+  // when File History view is loaded - is there a file to be viewed
   public fileHistoryId: string;
 
-  // observable to update file-list of data changes
+  // to determine if FileList is being displayed in Team view to remove border-shadow so fits with styling
+  public isTeam = false;
+
+  // observable to update file-list of data changes. Once FileList gets initialised it pulls currentList.
+  // this observable tells the list to refresh the data
   updateTable = new Subject();
 
   // variable used to populate file-list
@@ -30,24 +38,29 @@ export class FileService {
     return this.currentList;
   }
 
+  // return the file that is pending editing
   public getFileToEdit () {
     return this.file;
   }
 
   // gets called once server has returned a list of files
-  public setFileList(data: FileList[]): any {
+  public setFileList(data: FileList[], isTeam: boolean): any {
     this.currentList = data;
+    this.isTeam = isTeam;
   }
 
+  // once you click edit service stores file you are editing
   public setFileToBeEdited (file: File) {
     this.file = file;
     this.filePendingEdit = true;
   }
 
+  // set fileId of the file history you are viewing
   public setFileHistory(fileId: string): any {
     this.fileHistoryId = fileId;
   }
 
+  // pull file history from the server
   public getFileHistory () {
       return this.http.get(`${ environment.server.url }api/file/history/${ this.fileHistoryId }`)
         .map(res => <File[]>res.json());
@@ -63,6 +76,11 @@ export class FileService {
   public pullPublicFiles () {
     return this.http.get(`${ environment.server.url }api/file/public`)
       .map(res => <FileList[]>res.json());
+  }
+
+  // get list of all tags from all files
+  public getTags () {
+    return this.http.get(`${ environment.server.url }api/file/all/tags`);
   }
 
   /**
@@ -92,19 +110,23 @@ export class FileService {
     return this.http.post(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }`, file);
   }
 
+  // update checkout flag on file
   public checkoutFile(fileId: string): any {
     return this.http.put(`${ environment.server.url }api/file/checkout/${ this.userService.getUserDetails().userId }/${ fileId }`, {});
   }
 
+  // update checkout flag on file
   public checkInFile(fileId: string): any {
     return this.http.put(`${ environment.server.url }api/file/checkIn/${ this.userService.getUserDetails().userId }/${ fileId }`, {});
   }
 
+  // PUT new file and archive previous version
   public updateFile (file: File) {
     file.size = this.sizeConversion(file.size, file.sizeType);
     return this.http.put(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }/${ file._id }`, file);
   }
 
+  // archive file
   public deleteFile (fileId) {
     return this.http.delete(`${ environment.server.url }api/file/${ this.userService.getUserDetails().userId }/${ fileId }`);
   }

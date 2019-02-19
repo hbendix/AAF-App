@@ -28,7 +28,7 @@ export class MyFilesComponent implements OnInit {
   public getFileList  () {
     this.fileService.pullFiles().subscribe(
       (res) => {
-        this.fileService.setFileList(res);
+        this.fileService.setFileList(res, false);
         this.loaded = true;
       }, (err) => {
         this.notificationService.triggerNotification(`Error pulling files: ${ err.statusText }`, false, 3000);

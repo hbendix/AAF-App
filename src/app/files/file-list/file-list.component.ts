@@ -17,7 +17,7 @@ export class FileListComponent implements OnInit, AfterViewInit {
   myFiles: FileList[] = [];
   // columns to be displayed on the table
   displayedColumns: string[] = ['version', 'name', 'type', 'size'];
-
+  isTeam = false;
   // values for the loading bar
   color = 'accent';
   mode = 'indeterminate';
@@ -28,7 +28,9 @@ export class FileListComponent implements OnInit, AfterViewInit {
 
   constructor(private fileService: FileService,
     private notificationService: NotificationService,
-    private bottomSheet: MatBottomSheet) { }
+    private bottomSheet: MatBottomSheet) {
+      this.isTeam = fileService.isTeam;
+    }
 
   /**
    * As component is generic, subscribe to Observable to be alerted

@@ -74,7 +74,7 @@
             <mat-radio-button [value]=false>Private</mat-radio-button>
           </mat-radio-group>
 
-          <mat-form-field appearance="outline" *ngIf="!fileForm.value.isPublic">
+          <mat-form-field appearance="outline">
             <mat-label>Share with User</mat-label>
             <mat-select placeholder="Select User"
                         formControlName="canEdit"
@@ -93,7 +93,7 @@
           </mat-form-field>
         </form>
         <button mat-raised-button color="accent" [disabled]="fileForm.invalid" *ngIf="!pendingEdit" style="margin-top:16px;float:right;" (click)="addFile()">Add New</button>
-        <button mat-raised-button color="warn" [disabled]="fileForm.invalid" *ngIf="pendingEdit" style="margin-top:16px;" (click)="deleteFile()">Delete</button>
+        <button mat-raised-button color="warn" [disabled]="fileForm.invalid" *ngIf="pendingEdit" style="margin-top:16px;" (click)="delete()">Delete</button>
         <button mat-raised-button color="accent" [disabled]="fileForm.invalid" *ngIf="pendingEdit" style="margin-top:16px;float:right;" (click)="addFile()">Update</button>
       </div>
       <div class="file-container" *ngIf="fileForm === null">

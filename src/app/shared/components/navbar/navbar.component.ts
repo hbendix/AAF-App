@@ -17,6 +17,8 @@ export class NavbarComponent {
 
   // used for welcome message
   username = this.userService.getUserDetails().username;
+
+  // to close drawer on navigation change
   @ViewChild('drawer') drawer: MatSidenav;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
@@ -38,6 +40,7 @@ export class NavbarComponent {
       });
     }
 
+  // logout be removing local storage of user information
   public logout () {
     this.auth.logOut();
     this.router.navigate(['/Login']);

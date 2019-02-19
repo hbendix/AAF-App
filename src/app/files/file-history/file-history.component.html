@@ -7,6 +7,9 @@
         <li *ngFor="let file of files; let i = index">
           <span></span>
           <div>
+            <div class="user">
+              Version {{ file.version }} by {{ file.updatedBy.name }}
+            </div>
             <div class="title">
               <span [ngClass]="changed(files[i], files[i - 1], 'title', i)">
                 {{ file.title }}
