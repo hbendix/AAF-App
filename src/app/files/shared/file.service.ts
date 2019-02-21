@@ -89,7 +89,6 @@ export class FileService {
    */
   public search(q: any) {
     q.size = this.sizeConversion(q.size, q.sizeType);
-    console.log(q.size);
     return this.http.post(`${ environment.server.url }api/file/search`, q)
       .map(res => <FileList[]>res.json());
   }

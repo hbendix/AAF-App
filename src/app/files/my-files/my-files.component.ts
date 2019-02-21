@@ -32,7 +32,6 @@ export class MyFilesComponent implements OnInit {
         this.loaded = true;
       }, (err) => {
         this.notificationService.triggerNotification(`Error pulling files: ${ err.statusText }`, false, 3000);
-        console.log(err);
       }
     );
   }

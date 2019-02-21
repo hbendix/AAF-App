@@ -27,7 +27,6 @@ export class TeamListComponent implements OnInit {
     this.teamService.getTeams().subscribe(
       (res) => {
         this.myTeams = res;
-        console.log(this.myTeams);
       }, (err) => {
         this.notificationService.triggerNotification(`Error pulling teams: ${ err.statusText }`, false, 3000);
       }

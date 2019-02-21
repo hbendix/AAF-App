@@ -38,7 +38,6 @@ export class FileSheetComponent implements OnInit {
     this.fileService.getFile(this.file.fileId).subscribe(
       (res) => {
         this.viewFile = res;
-        console.log(this.viewFile);
         this.canEdit();
         this.isCheckedOut();
       }, (err) => {
@@ -99,7 +98,6 @@ export class FileSheetComponent implements OnInit {
    * @param fileId string
    */
   public history (fileId: string) {
-    console.log(fileId);
     this.fileService.setFileHistory(fileId);
     this.dialogRef.dismiss();
     this.router.navigate(['/History']);

@@ -55,7 +55,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/']);
       }, (err) => {
         this.notificationService.triggerNotification(`Error ${ err.statusText }`, false, 3000);
-        console.log(err);
       }
     );
   }

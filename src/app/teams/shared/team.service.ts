@@ -38,7 +38,6 @@ export class TeamService {
   // set service with the Team to view
   public setTeamToView(_team: Team): any {
     this.team = _team;
-    console.log(_team);
     this.fileService.setFileList(_team.files, true);
   }
 

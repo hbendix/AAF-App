@@ -55,7 +55,6 @@ export class FileListComponent implements OnInit, AfterViewInit {
    */
   public getFileList  () {
     this.myFiles = this.fileService.getFileList();
-    console.log(this.myFiles);
     if (this.myFiles !== null) {
       this.dataSource = new MatTableDataSource<FileList>(this.myFiles);
       this.dataSource.paginator = this.paginator;
@@ -69,7 +68,6 @@ export class FileListComponent implements OnInit, AfterViewInit {
    * @param row - row clicked by user from Table
    */
   public showFile (row: any) {
-    console.log(row);
     const bottomSheetRef = this.bottomSheet.open(FileSheetComponent, {
       data: { fileId: row._id }
     });

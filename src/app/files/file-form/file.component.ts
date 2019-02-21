@@ -69,7 +69,6 @@ export class FileComponent implements OnInit, OnDestroy {
           this.getUsers();
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
-          console.log(err);
         }
     );
   }
@@ -81,11 +80,9 @@ export class FileComponent implements OnInit, OnDestroy {
         (res) => {
           res.splice(res.findIndex(item => item.name ===  this.userService.getUserDetails().username), 1);
           this.users = res;
-          console.log(this.users);
           this.setupForm();
         }, (err) => {
           this.notificationService.triggerNotification(`Error getting teams '${ err.statusText }'`, false, 3000);
-          console.log(err);
         }
       );
   }
@@ -102,7 +99,6 @@ export class FileComponent implements OnInit, OnDestroy {
   private setupNewForm(): any {
     // set up the form group with all required validation for adding to the DB
     this.fileForm = this.fb.group({
-      hideRequired: false,
       floatLabel: 'auto',
       version: [
         { disabled: true }, [
@@ -131,7 +127,6 @@ export class FileComponent implements OnInit, OnDestroy {
   private setupEditForm(): any {
     // set up the form group with all required validation for adding to the DB
     this.fileForm = this.fb.group({
-      hideRequired: false,
       floatLabel: 'auto',
       version: [ this.file.version,
         { disabled: true }, [
@@ -211,8 +206,6 @@ export class FileComponent implements OnInit, OnDestroy {
       _canEdit = this.users.filter((u: User) => file.canEdit.includes(u._id));
     }
 
-    console.log(_teams);
-
     const toAdd = new File(
       this.fileVersion,
       file.title,
@@ -267,7 +260,6 @@ export class FileComponent implements OnInit, OnDestroy {
   public delete() {
     this.fileService.deleteFile(this.file._id).subscribe(
       (res) => {
-        console.log(res);
         this.notificationService.triggerNotification('Deleted file', true, 3000);
         this.router.navigate(['/MyFiles']);
       }, (err) => {
